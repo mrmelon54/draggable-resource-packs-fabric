@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "draggable-resource-packs",
+  "version": "${version}",
+  "name": "Draggable Resource Packs",
+  "description": "Makes resource packs draggable instead of needing to click buttons",
+  "authors": [
+    "MrMelon54"
+  ],
+  "contact": {
+    "homepage": "https://minecraft.onpointcoding.net/mods/draggableresourcepacks",
+    "sources": "https://github.com/MrMelon54/draggable-resource-packs-fabric"
+  },
+  "license": "MIT",
+  "icon": "assets/draggableresourcepacks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.onpointcoding.draggableresourcepacks.client.DraggableResourcePacksClient"
+    ]
+  },
+  "mixins": [
+    "DraggableResourcePacks.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.x"
+  }
+}

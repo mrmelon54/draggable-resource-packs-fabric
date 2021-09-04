@@ -1,0 +1,20 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.onpointcoding.draggableresourcepacks.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "rp.AbstractPackMixin",
+    "rp.PackListWidgetMixin",
+    "rp.PackScreenMixin",
+    "rp.ResourcePackEntryMixin",
+    "rp.ResourcePackOrganizerMixin",
+    "server.MultiplayerScreenMixin",
+    "server.MultiplayerServerListWidgetMixin",
+    "server.ServerEntryMixin",
+    "server.ServerListMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
