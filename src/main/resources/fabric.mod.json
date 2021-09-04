@@ -4,6 +4,7 @@
   "version": "${version}",
   "name": "Draggable Resource Packs",
   "description": "Makes resource packs draggable instead of needing to click buttons",
+  "accessWidener": "draggableresourcepacks.accesswidener",
   "authors": [
     "MrMelon54"
   ],
