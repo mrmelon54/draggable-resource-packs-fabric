@@ -9,6 +9,9 @@ import net.minecraft.text.Text;
 import net.onpointcoding.draggableresourcepacks.duck.MultiplayerScreenDuckProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MultiplayerScreen.class)
 public abstract class MultiplayerScreenMixin extends Screen implements MultiplayerScreenDuckProvider {
@@ -22,10 +25,21 @@ public abstract class MultiplayerScreenMixin extends Screen implements Multiplay
         super(title);
     }
 
+    @Inject(method = "connect(Lnet/minecraft/client/network/ServerInfo;)V", at = @At("HEAD"))
+    private void injectedConnect(CallbackInfo ci) {
+        if (serverListWidget.isDragging()) serverListWidget.mouseReleased(0, 0, 0);
+    }
+
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (serverListWidget.isDragging()) serverListWidget.mouseReleased(mouseX, mouseY, button);
         return super.mouseReleased(mouseX, mouseY, button);
+    }
+
+    @Override
+    public void onClose() {
+        if (serverListWidget.isDragging()) serverListWidget.mouseReleased(0, 0, 0);
+        super.onClose();
     }
 
     public int getIndexOfServerInfo(ServerInfo serverInfo) {
