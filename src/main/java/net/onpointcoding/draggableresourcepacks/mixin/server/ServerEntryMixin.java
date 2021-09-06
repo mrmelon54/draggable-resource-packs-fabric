@@ -40,7 +40,7 @@ public abstract class ServerEntryMixin extends AlwaysSelectedEntryListWidget.Ent
             matrices.push();
 
             float z = 191f / 255f;
-            RenderSystem.setShaderColor(z, z, z, 0.5F);
+            RenderSystem.color4f(z,z,z,0.5F);
             DrawableHelper.fill(matrices, x - 1, y - 1, x + entryWidth - 2, y + entryHeight + 1, 0xbfbfbfff);
 
             render(matrices, index, y, x, entryWidth, entryHeight, mouseX, mouseY, hovered, tickDelta);
