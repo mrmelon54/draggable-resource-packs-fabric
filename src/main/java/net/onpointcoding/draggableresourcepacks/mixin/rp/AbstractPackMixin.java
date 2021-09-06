@@ -4,6 +4,7 @@ import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.resource.ResourcePackProfile;
 import net.onpointcoding.draggableresourcepacks.duck.AbstractPackDuckProvider;
 import net.onpointcoding.draggableresourcepacks.duck.ResourcePackOrganizerDuckProvider;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,6 +17,7 @@ public abstract class AbstractPackMixin implements AbstractPackDuckProvider {
     public abstract List<ResourcePackProfile> getCurrentList();
 
     @Shadow
+    @Dynamic("field_25460 is provided by ResourcePackOrganizer.AbstractPack but has no mapping")
     @Final
     private ResourcePackOrganizer field_25460;
 

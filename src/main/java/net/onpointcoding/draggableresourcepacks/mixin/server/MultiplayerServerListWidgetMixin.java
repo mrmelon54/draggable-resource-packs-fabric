@@ -162,8 +162,8 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
     }
 
     int capYCoordinate(int y, boolean useScreenSpace) {
-        int scrollableTop = top + 2;
-        int scrollableHeight = bottom - top - (useScreenSpace ? 0 : itemHeight);
+        int scrollableTop = top + 4;
+        int scrollableHeight = bottom - top - (useScreenSpace ? 2 : itemHeight + 2);
         if (y < scrollableTop) y = scrollableTop;
         if (y > scrollableTop + scrollableHeight) y = scrollableTop + scrollableHeight;
         return y;
