@@ -33,7 +33,7 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0 && draggingObject == null && isCapMouseY((int) mouseY)) {
             draggingObject = this.getEntryAtPosition(mouseX, mouseY);
-            if (draggingObject != null && draggingObject instanceof ResourcePackEntryDuckProvider duckProvider && isValidForDragging(duckProvider)) {
+            if (draggingObject != null && draggingObject instanceof ResourcePackEntryDuckProvider && isValidForDragging((ResourcePackEntryDuckProvider) draggingObject)) {
                 // Save the mouse origin position and the offset for the top left corner of the widget
                 draggingStartX = mouseX;
                 draggingStartY = mouseY;
@@ -48,17 +48,19 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
 
                 this.setDragging(true);
                 this.setFocused(draggingObject);
-                duckProvider.setBeingDragged(true);
+                ((ResourcePackEntryDuckProvider) draggingObject).setBeingDragged(true);
                 softScrollingTimer = 0;
                 GLFW.glfwSetCursor(client.getWindow().getHandle(), GLFW.glfwCreateStandardCursor(GLFW.GLFW_VRESIZE_CURSOR));
                 super.mouseClicked(mouseX, mouseY, button);
                 this.setSelected(null);
                 return true;
-            } else {
-                draggingObject = null;
             }
+            draggingObject = null;
         }
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.
+
+                mouseClicked(mouseX, mouseY, button);
+
     }
 
     @Override
@@ -66,8 +68,8 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
         this.setDragging(false);
         if (draggingObject != null) {
             GLFW.glfwSetCursor(client.getWindow().getHandle(), GLFW.glfwCreateStandardCursor(GLFW.GLFW_ARROW_CURSOR));
-            if (draggingObject instanceof ResourcePackEntryDuckProvider duckProvider)
-                duckProvider.setBeingDragged(false);
+            if (draggingObject instanceof ResourcePackEntryDuckProvider)
+                ((ResourcePackEntryDuckProvider) draggingObject).setBeingDragged(false);
         }
         draggingObject = null;
         softScrollingTimer = 0;
@@ -91,16 +93,16 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
 
         PackListWidget.ResourcePackEntry hoveredEntry = this.getEntryAtPosition(mouseX, y);
 
-        ResourcePackOrganizer.Pack draggingPack = draggingObject instanceof ResourcePackEntryDuckProvider duckProvider ? duckProvider.getUnderlyingPack() : null;
-        ResourcePackOrganizer.Pack hoveredPack = hoveredEntry instanceof ResourcePackEntryDuckProvider duckProvider ? duckProvider.getUnderlyingPack() : null;
+        ResourcePackOrganizer.Pack draggingPack = draggingObject instanceof ResourcePackEntryDuckProvider ? ((ResourcePackEntryDuckProvider) draggingObject).getUnderlyingPack() : null;
+        ResourcePackOrganizer.Pack hoveredPack = hoveredEntry instanceof ResourcePackEntryDuckProvider ? ((ResourcePackEntryDuckProvider) hoveredEntry).getUnderlyingPack() : null;
 
-        if (draggingPack != null && hoveredPack != null && draggingPack != hoveredPack && draggingObject instanceof ResourcePackEntryDuckProvider underlyingPackProvider) {
-            if (draggingPack instanceof AbstractPackDuckProvider abstractPack && dragResourcePack(underlyingPackProvider, draggingStartY, y)) {
+        if (draggingPack != null && hoveredPack != null && draggingPack != hoveredPack && draggingObject instanceof ResourcePackEntryDuckProvider) {
+            if (draggingPack instanceof AbstractPackDuckProvider && dragResourcePack((ResourcePackEntryDuckProvider) draggingObject, draggingStartY, y)) {
                 draggingStartY = mouseY;
-                int z = abstractPack.getIndexInCurrentList();
+                int z = ((AbstractPackDuckProvider) draggingPack).getIndexInCurrentList();
                 draggingObject = z == -1 ? null : getEntry(z);
-                if (draggingObject instanceof ResourcePackEntryDuckProvider duckProvider)
-                    duckProvider.setBeingDragged(true);
+                if (draggingObject instanceof ResourcePackEntryDuckProvider)
+                    ((ResourcePackEntryDuckProvider) draggingObject).setBeingDragged(true);
                 this.setSelected(null);
                 return true;
             }
@@ -112,13 +114,13 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
 
-        if (this.draggingObject instanceof ResourcePackEntryDuckProvider duckProvider) {
+        if (this.draggingObject instanceof ResourcePackEntryDuckProvider) {
             int z = MathHelper.floor(mouseY + draggingOffsetY);
             int x = MathHelper.floor(draggingStartX + draggingOffsetX);
             int y = capYCoordinate(z);
             int entryHeight = this.itemHeight - 4;
             int entryWidth = this.getRowWidth();
-            duckProvider.renderPoppedOut(matrices, 0, y, x, entryWidth, entryHeight, mouseX, mouseY, false, delta);
+            ((ResourcePackEntryDuckProvider) draggingObject).renderPoppedOut(matrices, 0, y, x, entryWidth, entryHeight, mouseX, mouseY, false, delta);
 
             if (y < z) {
                 if (softScrollingTimer == 0) {
@@ -163,8 +165,8 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
         int n = m / this.itemHeight;
 
         ResourcePackOrganizer.Pack pack = underlyingPackProvider.getUnderlyingPack();
-        if (pack instanceof AbstractPackDuckProvider duckProvider)
-            duckProvider.moveTo(n);
+        if (pack instanceof AbstractPackDuckProvider)
+            ((AbstractPackDuckProvider) pack).moveTo(n);
         return true;
     }
 

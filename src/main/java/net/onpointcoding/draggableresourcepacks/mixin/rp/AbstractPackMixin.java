@@ -30,8 +30,8 @@ public abstract class AbstractPackMixin implements AbstractPackDuckProvider {
         List<ResourcePackProfile> list = this.getCurrentList();
         list.remove(this.profile);
         list.add(j, this.profile);
-        if (this.field_25460 instanceof ResourcePackOrganizerDuckProvider duckProvider)
-            duckProvider.getUpdateCallback().run();
+        if (this.field_25460 instanceof ResourcePackOrganizerDuckProvider)
+            ((ResourcePackOrganizerDuckProvider) this.field_25460).getUpdateCallback().run();
     }
 
     @Override

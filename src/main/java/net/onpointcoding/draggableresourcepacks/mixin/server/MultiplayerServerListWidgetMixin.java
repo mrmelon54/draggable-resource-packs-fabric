@@ -51,8 +51,8 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0 && draggingObject == null && isCapMouseY((int) mouseY)) {
             MultiplayerServerListWidget.Entry a = this.getEntryAtPosition(mouseX, mouseY);
-            draggingObject = a instanceof MultiplayerServerListWidget.ServerEntry b ? b : null;
-            if (draggingObject != null && draggingObject instanceof ServerEntryDuckProvider duckProvider) {
+            draggingObject = a instanceof MultiplayerServerListWidget.ServerEntry ? (MultiplayerServerListWidget.ServerEntry) a : null;
+            if (draggingObject != null && draggingObject instanceof ServerEntryDuckProvider) {
                 // Save the mouse origin position and the offset for the top left corner of the widget
                 draggingStartX = mouseX;
                 draggingStartY = mouseY;
@@ -67,7 +67,7 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
 
                 this.setDragging(true);
                 this.setFocused(draggingObject);
-                duckProvider.setBeingDragged(true);
+                ((ServerEntryDuckProvider) draggingObject).setBeingDragged(true);
                 softScrollingTimer = 0;
                 GLFW.glfwSetCursor(client.getWindow().getHandle(), GLFW.glfwCreateStandardCursor(GLFW.GLFW_VRESIZE_CURSOR));
                 super.mouseClicked(mouseX, mouseY, button);
@@ -84,8 +84,8 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
         this.setDragging(false);
         if (draggingObject != null) {
             GLFW.glfwSetCursor(client.getWindow().getHandle(), GLFW.glfwCreateStandardCursor(GLFW.GLFW_ARROW_CURSOR));
-            if (draggingObject instanceof ServerEntryDuckProvider duckProvider)
-                duckProvider.setBeingDragged(false);
+            if (draggingObject instanceof ServerEntryDuckProvider)
+                ((ServerEntryDuckProvider) draggingObject).setBeingDragged(false);
         }
         draggingObject = null;
         softScrollingTimer = 0;
@@ -109,17 +109,17 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
 
         MultiplayerServerListWidget.Entry hoveredEntry = this.getEntryAtPosition(mouseX, y);
 
-        ServerInfo draggingPack = draggingObject instanceof ServerEntryDuckProvider duckProvider ? duckProvider.getUnderlyingServer() : null;
-        ServerInfo hoveredPack = hoveredEntry instanceof ServerEntryDuckProvider duckProvider ? duckProvider.getUnderlyingServer() : null;
+        ServerInfo draggingPack = draggingObject instanceof ServerEntryDuckProvider ? ((ServerEntryDuckProvider) draggingObject).getUnderlyingServer() : null;
+        ServerInfo hoveredPack = hoveredEntry instanceof ServerEntryDuckProvider ? ((ServerEntryDuckProvider) hoveredEntry).getUnderlyingServer() : null;
 
-        if (draggingPack != null && hoveredPack != null && draggingPack != hoveredPack && draggingObject instanceof ServerEntryDuckProvider serverEntryDuckProvider) {
-            if (dragServerItem(serverEntryDuckProvider, draggingStartY, y)) {
+        if (draggingPack != null && hoveredPack != null && draggingPack != hoveredPack && draggingObject instanceof ServerEntryDuckProvider) {
+            if (dragServerItem((ServerEntryDuckProvider) draggingObject, draggingStartY, y)) {
                 draggingStartY = mouseY;
-                if (screen instanceof MultiplayerScreenDuckProvider multiplayerScreenDuckProvider) {
-                    int z = multiplayerScreenDuckProvider.getIndexOfServerInfo(serverEntryDuckProvider.getUnderlyingServer());
-                    draggingObject = z == -1 ? null : (getEntry(z) instanceof MultiplayerServerListWidget.ServerEntry b ? b : null);
-                    if (draggingObject instanceof ServerEntryDuckProvider duckProvider)
-                        duckProvider.setBeingDragged(true);
+                if (screen instanceof MultiplayerScreenDuckProvider) {
+                    int z = ((MultiplayerScreenDuckProvider) screen).getIndexOfServerInfo(((ServerEntryDuckProvider) draggingObject).getUnderlyingServer());
+                    draggingObject = z == -1 ? null : (getEntry(z) instanceof MultiplayerServerListWidget.ServerEntry ? (MultiplayerServerListWidget.ServerEntry) getEntry(z) : null);
+                    if (draggingObject instanceof ServerEntryDuckProvider)
+                        ((ServerEntryDuckProvider) draggingObject).setBeingDragged(true);
                 }
                 return true;
             }
@@ -131,13 +131,13 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         super.render(matrices, mouseX, mouseY, delta);
 
-        if (this.draggingObject instanceof ServerEntryDuckProvider duckProvider) {
+        if (this.draggingObject instanceof ServerEntryDuckProvider) {
             int z = MathHelper.floor(mouseY + draggingOffsetY);
             int x = MathHelper.floor(draggingStartX + draggingOffsetX);
             int y = capYCoordinate(z);
             int entryHeight = this.itemHeight - 4;
             int entryWidth = this.getRowWidth();
-            duckProvider.renderPoppedOut(matrices, 0, y, x, entryWidth, entryHeight, mouseX, mouseY, false, delta);
+            ((ServerEntryDuckProvider) draggingObject).renderPoppedOut(matrices, 0, y, x, entryWidth, entryHeight, mouseX, mouseY, false, delta);
 
             if (y < z) {
                 if (softScrollingTimer == 0) {
@@ -178,8 +178,8 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
     }
 
     boolean dragServerItem(ServerEntryDuckProvider underlyingServerProvider, double draggingStartY, double mouseY) {
-        if (screen instanceof MultiplayerScreenDuckProvider multiplayerScreenDuckProvider) {
-            int i = multiplayerScreenDuckProvider.getIndexOfServerInfo(underlyingServerProvider.getUnderlyingServer());
+        if (screen instanceof MultiplayerScreenDuckProvider) {
+            int i = ((MultiplayerScreenDuckProvider) screen).getIndexOfServerInfo(underlyingServerProvider.getUnderlyingServer());
             if (i == -1) return false;
 
             int m = MathHelper.floor(mouseY - (double) this.top) - this.headerHeight + (int) this.getScrollAmount() - 4;
@@ -194,10 +194,10 @@ public abstract class MultiplayerServerListWidgetMixin extends AlwaysSelectedEnt
     }
 
     void moveServerEntry(int a, int b) {
-        if (this.screen.getServerList() instanceof ServerListDuckProvider duckProvider) {
+        if (this.screen.getServerList() instanceof ServerListDuckProvider) {
             ServerInfo serverInfo = this.screen.getServerList().get(a);
             this.screen.getServerList().remove(serverInfo);
-            duckProvider.add(b, serverInfo);
+            ((ServerListDuckProvider) screen.getServerList()).add(b, serverInfo);
             this.screen.getServerList().saveFile();
             this.setServers(this.screen.getServerList());
         }
