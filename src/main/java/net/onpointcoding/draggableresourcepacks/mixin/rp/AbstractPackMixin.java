@@ -16,7 +16,7 @@ public abstract class AbstractPackMixin implements AbstractPackDuckProvider {
     @Shadow
     public abstract List<ResourcePackProfile> getCurrentList();
 
-    @Shadow
+    @Shadow(aliases = {"this$0"})
     @Dynamic("field_25460 is provided by ResourcePackOrganizer.AbstractPack but has no mapping")
     @Final
     private ResourcePackOrganizer field_25460;
