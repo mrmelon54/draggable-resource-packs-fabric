@@ -1,5 +1,0 @@
-accessWidener	v1	named
-
-accessible   class   net/minecraft/client/gui/widget/EntryListWidget$MoveDirection
-accessible   class   net/minecraft/client/gui/screen/pack/ResourcePackOrganizer$AbstractPack
-accessible   method  net/minecraft/client/gui/screen/pack/ResourcePackOrganizer$AbstractPack   getCurrentList   ()Ljava/util/List;
