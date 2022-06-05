@@ -1,4 +1,4 @@
-package net.onpointcoding.draggableresourcepacks.mixin.rp;
+package xyz.mrmelon54.DraggableResourcePacks.mixin.rp;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -9,8 +9,8 @@ import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-import net.onpointcoding.draggableresourcepacks.duck.AbstractPackDuckProvider;
-import net.onpointcoding.draggableresourcepacks.duck.ResourcePackEntryDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.AbstractPackDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.ResourcePackEntryDuckProvider;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -87,6 +87,9 @@ public abstract class PackListWidgetMixin extends AlwaysSelectedEntryListWidget<
     }
 
     boolean updateDragEvent(double mouseX, double mouseY) {
+        if (mouseX < this.left) {
+            draggingStartX = mouseX;
+        }
         double y = capYCoordinate((int) mouseY, true);
 
         PackListWidget.ResourcePackEntry hoveredEntry = this.getEntryAtPosition(mouseX, y);

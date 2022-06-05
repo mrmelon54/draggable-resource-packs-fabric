@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.10-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'org.ajoberstar.grgit' version '4.1.0'
 }
 
@@ -41,7 +41,7 @@ processResources {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/draggableresourcepacks.accesswidener")
+    accessWidenerPath = file("src/main/resources/DraggableResourcePacks.accesswidener")
 }
 
 def targetJavaVersion = 17

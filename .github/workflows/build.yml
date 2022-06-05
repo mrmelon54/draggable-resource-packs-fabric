@@ -5,7 +5,7 @@
 
 name: Java CI
 
-on: [push]
+on: [ push ]
 
 jobs:
   build:
@@ -24,7 +24,9 @@ jobs:
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
           arguments: build
-      - uses: actions/upload-artifact@v3
-        with:
-          name: Package
-          path: build/libs
+
+      - name: Compress
+        run: tar -czvf upload.tar.gz build/libs/*.jar
+
+      - name: Deploy
+        run: 'curl -X POST -H "Authorization: Bearer ${{ secrets.DEPLOY }}" -F "upload=@upload.tar.gz" https://b.mrmelon54.xyz/u/mc-mod/draggable-resource-packs'

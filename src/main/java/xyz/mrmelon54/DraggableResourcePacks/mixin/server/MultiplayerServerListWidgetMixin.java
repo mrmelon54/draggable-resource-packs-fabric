@@ -1,4 +1,4 @@
-package net.onpointcoding.draggableresourcepacks.mixin.server;
+package xyz.mrmelon54.DraggableResourcePacks.mixin.server;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
@@ -9,9 +9,9 @@ import net.minecraft.client.option.ServerList;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
-import net.onpointcoding.draggableresourcepacks.duck.MultiplayerScreenDuckProvider;
-import net.onpointcoding.draggableresourcepacks.duck.ServerEntryDuckProvider;
-import net.onpointcoding.draggableresourcepacks.duck.ServerListDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.MultiplayerScreenDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.ServerEntryDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.ServerListDuckProvider;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Final;

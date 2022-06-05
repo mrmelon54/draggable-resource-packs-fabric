@@ -1,4 +1,4 @@
-package net.onpointcoding.draggableresourcepacks.duck;
+package xyz.mrmelon54.DraggableResourcePacks.duck;
 
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.client.util.math.MatrixStack;

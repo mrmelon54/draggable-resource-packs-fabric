@@ -1,9 +1,9 @@
-package net.onpointcoding.draggableresourcepacks.mixin.rp;
+package xyz.mrmelon54.DraggableResourcePacks.mixin.rp;
 
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.resource.ResourcePackProfile;
-import net.onpointcoding.draggableresourcepacks.duck.AbstractPackDuckProvider;
-import net.onpointcoding.draggableresourcepacks.duck.ResourcePackOrganizerDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.AbstractPackDuckProvider;
+import xyz.mrmelon54.DraggableResourcePacks.duck.ResourcePackOrganizerDuckProvider;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
