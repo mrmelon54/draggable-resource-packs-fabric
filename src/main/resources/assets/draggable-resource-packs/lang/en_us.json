@@ -1,0 +1,5 @@
+{
+  "text.autoconfig.draggable-resource-packs.title": "Draggable Resource Packs",
+  "text.autoconfig.draggable-resource-packs.option.disableResourcePackArrows": "Disable Resource Pack Arrows",
+  "text.autoconfig.draggable-resource-packs.option.disableServerArrows": "Disable Server Arrows"
+}

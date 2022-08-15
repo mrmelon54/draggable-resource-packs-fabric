@@ -6,6 +6,9 @@ import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.screen.pack.ResourcePackOrganizer;
 import net.minecraft.client.gui.widget.AlwaysSelectedEntryListWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Slice;
+import xyz.mrmelon54.DraggableResourcePacks.client.DraggableResourcePacksClient;
 import xyz.mrmelon54.DraggableResourcePacks.duck.ResourcePackEntryDuckProvider;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -39,6 +42,27 @@ public abstract class ResourcePackEntryMixin extends AlwaysSelectedEntryListWidg
     public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta, CallbackInfo ci) {
         if (isBeingDragged)
             ci.cancel();
+    }
+
+    @Redirect(method = "render",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawableHelper;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIFFIIII)V"),
+            slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/ResourcePackOrganizer$Pack;canMoveTowardStart()Z"))
+    )
+    public void removeArrowButtons(MatrixStack matrices, int x, int y, float u, float v, int width, int height, int textureWidth, int textureHeight) {
+        if (DraggableResourcePacksClient.getInstance().getConfig().disableResourcePackArrows) return;
+        DrawableHelper.drawTexture(matrices, x, y, u, v, width, height, textureWidth, textureHeight);
+    }
+
+    @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/ResourcePackOrganizer$Pack;moveTowardStart()V"))
+    public void removeMoveTowardStart(ResourcePackOrganizer.Pack instance) {
+        if (DraggableResourcePacksClient.getInstance().getConfig().disableResourcePackArrows) return;
+        instance.moveTowardStart();
+    }
+
+    @Redirect(method = "mouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/ResourcePackOrganizer$Pack;moveTowardEnd()V"))
+    public void removeMoveTowardEnd(ResourcePackOrganizer.Pack instance) {
+        if (DraggableResourcePacksClient.getInstance().getConfig().disableResourcePackArrows) return;
+        instance.moveTowardEnd();
     }
 
     @Override

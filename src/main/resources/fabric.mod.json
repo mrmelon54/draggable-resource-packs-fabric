@@ -19,6 +19,9 @@
   "entrypoints": {
     "client": [
       "xyz.mrmelon54.DraggableResourcePacks.client.DraggableResourcePacksClient"
+    ],
+    "modmenu": [
+      "xyz.mrmelon54.DraggableResourcePacks.ModMenuIntegration"
     ]
   },
   "mixins": [
